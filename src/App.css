@@ -41,3 +41,11 @@
   color: #888;
 }
 
+.bg-dark {
+  background-color: red;
+}
+
+.custom-buttons{
+  display: flex;
+  align-items: center;
+}

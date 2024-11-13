@@ -1,21 +1,35 @@
-import { ReactElement } from "react";
+import { createContext, ReactElement } from "react";
+import { useProduct } from "../hooks/useProduct";
+import { onChangeArgs, Product, ProductContextProps } from "../assets/interfaces/interfaces";
 
-interface product {
-  id: number;
-  title: string;
-  img: string;
-}
+export const ProductContext = createContext({} as ProductContextProps);
 
-interface Props {
-  // children: React.ReactNode
-  children: ReactElement | ReactElement[];
-  product: product;
+const { Provider } = ProductContext;
+export interface Props {
+  product: Product;
+  children?: React.ReactElement | React.ReactElement[];
   className?: string;
-  style?: React.CSSProperties | undefined;
+  style?: React.CSSProperties;
+  onChange?: ( args: onChangeArgs ) => void;
+  value?: number;
 }
 
-const ProductCard = ({ children, product, className, style }: Props) => {
-  return <div className={className} style={style}>{children}</div>;
-};
 
-export default ProductCard;
+export const ProductCard = ({ children, product, className, style, onChange, value }: Props) => {
+  const { counter, increaseBy } = useProduct({ onChange, product, value });
+
+    return (
+        <Provider value={{
+            counter,
+            increaseBy,
+            product
+        }}>
+            <div 
+                className={ className }
+                style={ style }
+            >
+                { children }
+            </div>
+        </Provider>
+    )
+};

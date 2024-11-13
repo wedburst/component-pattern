@@ -1,11 +1,24 @@
-import { useProduct } from "../hooks/useProduct";
+import { useContext } from "react";
+import { ProductContext } from "./ProductCard";
 
-export const ProductoButtons = () => {
-    const {counter, incrementBy } = useProduct();
+export interface Props {
+    className?: string;
+    style?: React.CSSProperties 
+}
+
+export const ProductButtons = ({ className, style }: Props) => {
+    const {counter, increaseBy  } = useContext(ProductContext);
+
     return (
-        <div>
-            <button onClick={ () => incrementBy(1) }> +1 </button>
-            <div>{counter}</div>
+        <div className={className}
+        style={ style }>
+            <button
+                onClick={ () => increaseBy( -1 ) }> - </button>
+
+            <div className="counter"> { counter } </div>
+
+            <button
+                onClick={ () => increaseBy( +1 ) }> + </button>
         </div>
     )
 }

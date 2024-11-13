@@ -1,30 +1,78 @@
-import React from "react";
-import ProductCard from "../components/ProductCard";
-import { ProductImage, ProductoButtons, ProductTitle } from "../components";
-import '../assets/styles/custom-styles.css'
+import { ProductCard, ProductImage, ProductTitle, ProductButtons } from '../components';
+import { products } from '../data/products';
+import { useShoppingCart } from '../hooks/useShoppingCart';
+import '../App.css';
 
-const product = {
-    id: 1,
-    title: "Titulo producto",
-    img: "https://placehold.co/700x400/EEE/31343C",
+export const ShoppingPage = () => {
+
+    const { shoppingCart, onProductCountChange } = useShoppingCart();
+   
+
+    return (
+        <div>
+            <h1>Shopping Store</h1>
+            <hr />
+
+            <div style={{
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                columnGap: "32px"
+            }}>
+
+
+                {
+                    products.map( product => (
+                        <ProductCard 
+                            key={ product.id }
+                            product={ product }
+                            onChange={ onProductCountChange }
+                            value={ shoppingCart[product.id]?.count || 0 }
+                        >
+                            <ProductImage className="custom-image" style={{  width: "200px", height: "200px", objectFit: "cover" }} />
+                            <ProductTitle className="text-bold" />
+                            <ProductButtons className="custom-buttons" />
+                        </ProductCard>
+                    ))
+                }
+            </div>
+            
+            <div className="shopping-cart" >
+                <h2>Shopping Cart</h2>
+                { JSON.stringify( shoppingCart, null, 5 ) }
+                <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginTop: "32px",
+                    columnGap: "32px",
+                }}>
+
+                {
+                    Object.entries( shoppingCart ).map( ([ key, product ]) => (
+                        <ProductCard 
+                            key={ key }
+                            product={ product }
+                            onChange={ onProductCountChange }
+                            value={ product.count }
+                        >
+                            <ProductImage className="custom-image" style={{ width: "100px", height: "100px", objectFit: "cover" }} />
+                            <ProductButtons 
+                                className="custom-buttons"
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'center'
+                                }}
+                            />
+                        </ProductCard>
+                    ))
+                }
+                </div>
+
+                    
+            </div>
+
+        </div>
+    )
 }
-
-const ShoppingPage = () => {
-  return (
-    <div>
-      {/* <ProductCard>
-        <ProductCard.Title title="Titulo producto" />
-        <ProductCard.Image/>
-        <ProductoCard.Buttons />
-      </ProductCard> */}
-
-      <ProductCard product={product} className="bg-dark" style={{ padding: '5rem'}}>
-        <ProductTitle title="Titulo producto" />
-        <ProductImage img="https://placehold.co/700x400/EEE/31343C" />
-        <ProductoButtons />
-      </ProductCard>
-    </div>
-  );
-};
-
-export default ShoppingPage;

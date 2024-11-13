@@ -1,3 +1,7 @@
 .bg-dark {
   background-color: red;
 }
+
+.custom-buttons{
+  display: flex;
+}

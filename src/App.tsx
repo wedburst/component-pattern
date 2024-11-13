@@ -1,5 +1,5 @@
 import './App.css'
-import ShoppingPage from './Pages/ShoppingPage'
+import { ShoppingPage } from './Pages/ShoppingPage'
 
 function App() {
 
